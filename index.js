@@ -1,33 +1,28 @@
-const express = require('express')
-const app = express()
-const port = 3000
-let booklog = {} //本当は複数形がいいが、今回はただのオブジェクトにしてる
+const express = require("express");
+const app = express();
+const PORT = 3000;
+app.use(express.json());
+app.listen(PORT, () => console.log('サーバーが起動しました。'));
 
-
-app.use(express.json())
-
-app.post('/booklog', (req, res) => {
-    booklog = req.body
-
-    if(!(booklog.name && booklog.text)) {
-        return res.json({
-            "ok": false,
-            "error": "invalid parameter"
-        })
-    }
-    res.json({
-        "ok": true,
-        "booklog": booklog
-    })
+app.get("/", (req, res) => {
+    res.send("node.jsを学習中");
 })
 
-// 一覧取得する
-app.get("/booklog", (req, res) => {
-    res.json({
-        "ok": true,
-        "booklog": [booklog]
-    })
+const customers = [
+    {title: "hoge", id: 1},
+    {title: "fuga", id: 2},
+    {title: "taro", id: 3},
+    {title: "poo", id: 4},
+    {title: "mame", id: 5},
+    {title: "mochi", id: 6}
+];
+
+app.get("/api/customers", (req, res) => {
+    res.send(customers);
 })
-app.listen(port, () => {
-    console.log(`App listening at http:/localhost:${port}`)
+
+app.post("/api/customers", (req, res) => {
+    const customer = {title: req.body.title, id: customers.length + 1};
+    customers.push(customer);
+    res.send(customer);
 })
