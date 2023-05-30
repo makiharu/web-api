@@ -21,8 +21,16 @@ app.get("/api/customers", (req, res) => {
     res.send(customers);
 })
 
+// 登録
 app.post("/api/customers", (req, res) => {
     const customer = {title: req.body.title, id: customers.length + 1};
     customers.push(customer);
+    res.send(customer);
+})
+
+// 更新
+app.put("/api/customers/:id", (req, res) => {
+    const customer = customers.find((c) => c.id === parseInt(req.params.id));
+    customer.title = req.body.title;
     res.send(customer);
 })
