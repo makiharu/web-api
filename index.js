@@ -17,6 +17,7 @@ const customers = [
     {title: "mochi", id: 6}
 ];
 
+// 一覧取得
 app.get("/api/customers", (req, res) => {
     res.send(customers);
 })
@@ -32,5 +33,11 @@ app.post("/api/customers", (req, res) => {
 app.put("/api/customers/:id", (req, res) => {
     const customer = customers.find((c) => c.id === parseInt(req.params.id));
     customer.title = req.body.title;
+    res.send(customer);
+})
+
+// 検索
+app.get("/api/customers/:id", (req, res) => {
+    const customer = customers.find((c) => c.id === parseInt(req.params.id));
     res.send(customer);
 })
